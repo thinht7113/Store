@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.1/css/all.css">
+    <link rel="stylesheet" href="Style-detail.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/duotone-thin.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/duotone-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.2/css/sharp-light.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    
+    <header>
+        <nav>
+            <div>
+                <a href="./main.html"><img class="logo" src="Images/Logo/Spotify_Full_Logo_RGB_White.png" alt=""></a>
+            </div>  
+            <form class="form">
+                <button>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                    <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+                <input class="input" placeholder="Bạn cần tìm gì..." required="" type="text">
+                <button class="reset" type="reset">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </form>
+            <ul class="ul-title">
+                <li class="li-title"><a href=""><i class="fa-solid fa-phone" ></i><span>Gọi mua hàng<br>0342549974</span></a></li>
+                <li class="li-title"><a href=""><i class="fa-solid fa-shield" ></i><span>Chính sách<br> bảo hành</span></a></li>
+                <li class="li-title"><a href=""><i class="fa-solid fa-location-dot" ></i><span>Hệ thống<br>cửa hàng</span></a></li>
+                <li class="li-title">
+                    <a id="loginButton" style="cursor: pointer;"><i class="fa-solid fa-user" ></i><span>Đăng nhập <br>tài khoản</span></a>
+                    <div id="loginModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" id="closeLogin">&times;</span>
+                            <h2>Đăng nhập tài khoản</h2>
+                            <form id="loginForm">
+                                <input class="inputForm" id="username" type="text" placeholder="Nhập số điện thoại/email *" name="username" required />
+                                <input class="inputForm" id="password" type="password" placeholder="Nhập mật khẩu *" name="password" required />
+                                <button class="button-submit" type="submit">Đăng nhập</button>
+                            </form>
+                            <p>Hoặc</p>
+                            <div class="social-login">
+                                <div class="social-btn-box">
+                                    <a class="social-btn" href="#" rel="nofollow">
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEkUlEQVR4nO2Zb0wbZRzHn3taesUtRpOJYbo/DoQM5c/GMgryzxkYxbGBiQsbNBCEFGaIY8zCCuaUMSiQAQMGQWAgcSY2GeuNuzpc8NqNvRoCItE3841Dthj3ToNzbX+mVRBI197Zo2VJv8n3XZ+nn89dn6dPrwj5448/HgcoJIWqgGIoxywU4HuQTfwJSsIKBxBAKgJIQzbIJhZBhX+BE/g6VAUU2ccgXwc0UgWU4tvwNmGBJASCqiQsoMa3QRsQ433wOlk4qPEsvCkQ2llTEUAxnoEaFOIdeA3RCumEzWPwtT2IrHCK0K0f+HkUCMX4B9HBk9b0PTwNFJKJC9+NngcVfrDu8En/toJoFw9+EMnhOPGr1+DLCE40eIeAGn/vPXgsMvyHRIfgrbEMT0IlroUmaQpQaAtQKAjOSN6C05hy7Db21zgbW4pN4sI3kyGQQVh5g5+W9PJZfEChZ+ADydAqkVKR4R1vVIHv8IIvwPNwDr0oeP4aFAJ5+P76wJvl22CcfAQaCUCyC/gSPAV6JEEbLWAmdWAmwdHeAIB0wvmV35DweiQBs2x+WcDeURmACv8Hn0lYoAK9hDZiwCSPXwW/VI4E0En/ObuclPSjjRowybROBZY6FPAAyhGJNmrATF5xKWCSdQiZL1gzC2I0XDthO9rUd9e9gImccynAkRm+EAjWzMIbddcW+Qg8dCMQ6iuB3TW3rHwEHrkWQJt9JbCjehKeaoHtVd+C5x+hm7IwXwns1t60Pd2L+JNRHovYTI642UY7fSVwRDc8z0NAduZJ8A+5Z6Geif/jvF4RiEROy3D+puiPvrG4Eii/0DjqXoALVDiDnx0PBhWthENXs6HDGHtJbIGTnfX97u6Arq/iuHsBQBjMsntL4DYzCfRYOGQbDjvg7c2jlZaL11/bJhZ8W496Z2SNyeoK/vVas4XiKH5P88BENtrhfzdthrNMwjL4ylaPJi9wXIrHjwcpjpIeafxswd3VL2lrm+A9KXCBL98df+GvEjrdKfxSP2YTZjyRoDhKmt/SM+d2/6+egsbuylhBkzcwihlX8CvvRP/X4VuFwvfeiNhe1lX3E5/d51hz75zQ+RE9FvZKPq208pHIp5WWzq/2DlCDKXJ38w6PRW1qZ/b15RmU1pyRHDja2uH2FEp9ekrQl+dyutmY1iweAitFGljFdJdxL6VnIw5cGdsVdJkL2zJgjEq8aNxTV8ckTNpfs3JM1kgOFPZQsLXqO6cC77c3dSNPomPjpvkKeNKiwXLYWX1nFfy7TQM/Ik+j10fINHTqfW9IFH5RCJG1Jgd8ev2Xv53o6hJ0cHxiOG7HczVM4oI3JI7pc0HVemGeGq4MEgV+hYT8LBM/K2RN/J+eYxXTRmPo+v3m7jNGNecaMq2iX3lDprWXjWlG3sgwvSe0gY2beseQ5TF4ztXDjqt++caru5C3MzQWGdvM7L9VZDj4WCh4AZ3xuJGJm/icifb+n3xrowck6WeiC1uN+0a1TOLPajptUWVQWu13yH4IzDVk2tSGtMWqa8nzLex+ts8YU2Afg/zxxx/kaf4GzSVnCicBYF0AAAAASUVORK5CYII=">                                        Google
+                                    </a>
+                                    <a class="social-btn" href="#" rel="nofollow">
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEbElEQVR4nO2Yj2sbZRjHr/qXTJi9q7K6OkU7XEXBCYIKm+jQjdxt1s0yp2UwGXTdSkfRDjcV3UCxyBTqj+HEMrC1ndPZHxuiXR1NOzvX1nZtmve9ND+bn195bk16SXNpLtckBfPAF8LlyeX7ufd53/e5VxBKUYpS/P8CQJnL5XqQc97IGLvIOR/hnHs558hSlDtMv2WMHVNVtaowzl/A3Rtexc6Oyx7VhNlsZXc6ndvp4eTF+717sE6Ucen0ef9qG0eK+lRVXbeq5itseEKS4d57MgTG8moeJMbYHOe8ZlXMl9uwVZKx8HBdDGMTrryb50sQQcsQkg3rRQWqpACf/OArmHmuG4ncy6kRd4kK+sl8TX0UM47CmudL6s1pYlfIkMk86aPv8j5xkUlOp3ObaQBRwXUyv6EWGJtQiwrAOR82ZV5SsCX+9He1hIptHiRVVTeaAWhZK+XDF8UYO5p9+ci4FAfouuJeKwDdZgAm4wCjtwq39vPMspspIX8cIN3y+fLxsPadkQZHVoamvBPtATMAHjMACTOOueU3a7vgw/GzgSQ9/XZEy2/4bCGR1zXgxgfn/Pii04vxKRWdAx4M3XAZAnQt5tP90618OQFMTK+8hF7o9eD+PYD8bghzTo5ZB8e+U8GkUaFWRG9a/3k2Tf6j+2P4ccBjHeDGeOZy6B+aR9XeGJ45HEnAtrYHULEbOH3eh4kpFVf+msdzDRFDgFaD/Oo3qP9SrQFcGzUGoAlObcZjb0Zhv7mUt/lAFNS56nMHhuYNATZnyKdysgTQd20+rfmpGRXPNkTwwGsx9A4mL7WVtUBj29JcINEcMAKozJBPc8ISwLcXvcvMOxlH7Xsh3Lcb+P6X5Dol7WgO4/H6qFYO8Wu0IRoB7MiQ/9NVtzWA1vblOzGtNPTd80ci2hPS66turzYvqIciU0faFjRYqnEjgH6D/Lr3g9YncepNaI3PtAfsOxlMmKInW1kbw5MHo9qDeGR/LGFa/5kn5QNb3oriRLt/2RKeE8BTh6JmNpu8SsgFINuddW0ByHDrAWg4i22ec+4zAzCiB6CaTNdSFFKMsVtmAHpSy+jTDl+xAXqyB1BwLBWg+kAM/0wW79WSMdaUNYBoQ1W6JbL+42AxAaqzBhAElEky7KkAtPP+e7vwo8AYGxTMRoWM7akA1DLPOIpSRq+YBlgchT49wM6WcMHND99U/875xJpOpCUZc2SeWoLUrnNsXMUf9vTdqlVNTqv48JwvcPhMaJNgJUQZNaKC4MEzQXRfdaPjNw9OfePHS81hbU4Q3NZDEdCxO7XAVkzPOrj2FkbN4kN10QCdilsyr4eIj0QmUSP2YlMYTZ8H8HWPFz//7sbQqEsDuz17B44OCegti67/+qcbX3Z60Xw2AKU1hE2v33ntFGXwVTOfUk69K0FYlozL62XcI+QnUFauYJukYHi1jYsKrosydtF/CIUIScFGScZRUUE3AYkyPCYMByQZ0/RbUcE75TZUF8x4KUpRCmFNxX8QRqbiSsmKAQAAAABJRU5ErkJggg==">                                        Zalo
+                                    </a>
+                                </div>
+                            </div>
+                            <p>
+                                Bạn chưa có tài khoản? <a id="registerLink">Đăng ký ngay</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Modal Đăng Ký -->
+                    <div id="registerModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" id="closeRegister">&times;</span>
+                            <h2>Đăng ký tài khoản</h2>
+                            <form id="registerForm">
+                                <input class="inputForm" id="fullname" type="text" placeholder="Nhập họ và tên *" name="fullname" required />
+                                <input class="inputForm" id="phone" type="tel" placeholder="Nhập số điện thoại *" name="phone" required pattern="^0[0-9]{9,10}$" title="Số điện thoại phải bắt đầu bằng số 0 và có 10-11 chữ số" />
+                                <input class="inputForm" id="email" type="email" placeholder="Nhập email (không bắt buộc)" name="email" />
+                                <select class="select" name="city" required style="width: 100% ;">
+                                        <option value="0">Tỉnh/ thành phố (*)</option>
+                                        <option value="1">Hà Nội</option><option value="79">Hồ Chí Minh</option>
+                                        <option value="2">Hà Giang</option>
+                                        <option value="4">Cao Bằng</option>
+                                        <option value="6">Bắc Kạn</option>
+                                        <option value="8">Tuyên Quang</option>
+                                        <option value="10">Lào Cai</option>
+                                        <option value="11">Điện Biên</option>
+                                        <option value="12">Lai Châu</option>
+                                        <option value="14">Sơn La</option>
+                                        <option value="15">Yên Bái</option>
+                                        <option value="17">Hoà Bình</option>
+                                        <option value="19">Thái Nguyên</option>
+                                        <option value="20">Lạng Sơn</option>
+                                        <option value="22">Quảng Ninh</option>
+                                        <option value="24">Bắc Giang</option>
+                                        <option value="25">Phú Thọ</option>
+                                        <option value="26">Vĩnh Phúc</option>
+                                        <option value="27">Bắc Ninh</option>
+                                        <option value="30">Hải Dương</option>
+                                        <option value="31">Hải Phòng</option>
+                                        <option value="33">Hưng Yên</option>
+                                        <option value="34">Thái Bình</option>
+                                        <option value="35">Hà Nam</option>
+                                        <option value="36">Nam Định</option>
+                                        <option value="37">Ninh Bình</option>
+                                        <option value="38">Thanh Hóa</option>
+                                        <option value="40">Nghệ An</option>
+                                        <option value="42">Hà Tĩnh</option>
+                                        <option value="44">Quảng Bình</option>
+                                        <option value="46">Thừa Thiên Huế</option>
+                                        <option value="48">Đà Nẵng</option>
+                                        <option value="49">Quảng Nam</option>
+                                        <option value="51">Quảng Ngãi</option>
+                                        <option value="52">Bình Định</option>
+                                        <option value="54">Phú Yên</option>
+                                        <option value="56">Khánh Hòa</option>
+                                        <option value="68">Lâm Đồng</option>
+                                        <option value="72">Tây Ninh</option>
+                                        <option value="74">Bình Dương</option>
+                                        <option value="75">Đồng Nai</option>
+                                        <option value="77">Bà Rịa - Vũng Tàu</option>
+                                        <option value="80">Long An</option>
+                                        <option value="82">Tiền Giang</option>
+                                        <option value="83">Bến Tre</option>
+                                        <option value="84">Trà Vinh</option>
+                                        <option value="86">Vĩnh Long</option>
+                                        <option value="87">Đồng Tháp</option>
+                                        <option value="89">An Giang</option>
+                                        <option value="91">Kiên Giang</option>
+                                        <option value="92">Cần Thơ</option>
+                                        <option value="93">Hậu Giang</option>
+                                        <option value="94">Sóc Trăng</option>
+                                        <option value="95">Bạc Liêu</option>
+                                        <option value="96">Cà Mau</option>
+                                </select >
+                                <input class="inputForm" id="password1" type="password" placeholder="Nhập mật khẩu *" name="password" required />
+                                <input class="inputForm" id="confirm_password" type="password" placeholder="Nhập lại mật khẩu *" name="confirm_password" required />
+                                <button class="button-submit" type="submit">Đăng ký</button>
+                            </form>
+                            <div class="alternative">
+                                <p>Hoặc</p>
+                                <div class="social-login">
+                                    <div class="social-btn-box">
+                                        <a class="social-btn btn-google" href="#" rel="nofollow">
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEkUlEQVR4nO2Zb0wbZRzHn3taesUtRpOJYbo/DoQM5c/GMgryzxkYxbGBiQsbNBCEFGaIY8zCCuaUMSiQAQMGQWAgcSY2GeuNuzpc8NqNvRoCItE3841Dthj3ToNzbX+mVRBI197Zo2VJv8n3XZ+nn89dn6dPrwj5448/HgcoJIWqgGIoxywU4HuQTfwJSsIKBxBAKgJIQzbIJhZBhX+BE/g6VAUU2ccgXwc0UgWU4tvwNmGBJASCqiQsoMa3QRsQ433wOlk4qPEsvCkQ2llTEUAxnoEaFOIdeA3RCumEzWPwtT2IrHCK0K0f+HkUCMX4B9HBk9b0PTwNFJKJC9+NngcVfrDu8En/toJoFw9+EMnhOPGr1+DLCE40eIeAGn/vPXgsMvyHRIfgrbEMT0IlroUmaQpQaAtQKAjOSN6C05hy7Db21zgbW4pN4sI3kyGQQVh5g5+W9PJZfEChZ+ADydAqkVKR4R1vVIHv8IIvwPNwDr0oeP4aFAJ5+P76wJvl22CcfAQaCUCyC/gSPAV6JEEbLWAmdWAmwdHeAIB0wvmV35DweiQBs2x+WcDeURmACv8Hn0lYoAK9hDZiwCSPXwW/VI4E0En/ObuclPSjjRowybROBZY6FPAAyhGJNmrATF5xKWCSdQiZL1gzC2I0XDthO9rUd9e9gImccynAkRm+EAjWzMIbddcW+Qg8dCMQ6iuB3TW3rHwEHrkWQJt9JbCjehKeaoHtVd+C5x+hm7IwXwns1t60Pd2L+JNRHovYTI642UY7fSVwRDc8z0NAduZJ8A+5Z6Geif/jvF4RiEROy3D+puiPvrG4Eii/0DjqXoALVDiDnx0PBhWthENXs6HDGHtJbIGTnfX97u6Arq/iuHsBQBjMsntL4DYzCfRYOGQbDjvg7c2jlZaL11/bJhZ8W496Z2SNyeoK/vVas4XiKH5P88BENtrhfzdthrNMwjL4ylaPJi9wXIrHjwcpjpIeafxswd3VL2lrm+A9KXCBL98df+GvEjrdKfxSP2YTZjyRoDhKmt/SM+d2/6+egsbuylhBkzcwihlX8CvvRP/X4VuFwvfeiNhe1lX3E5/d51hz75zQ+RE9FvZKPq208pHIp5WWzq/2DlCDKXJ38w6PRW1qZ/b15RmU1pyRHDja2uH2FEp9ekrQl+dyutmY1iweAitFGljFdJdxL6VnIw5cGdsVdJkL2zJgjEq8aNxTV8ckTNpfs3JM1kgOFPZQsLXqO6cC77c3dSNPomPjpvkKeNKiwXLYWX1nFfy7TQM/Ik+j10fINHTqfW9IFH5RCJG1Jgd8ev2Xv53o6hJ0cHxiOG7HczVM4oI3JI7pc0HVemGeGq4MEgV+hYT8LBM/K2RN/J+eYxXTRmPo+v3m7jNGNecaMq2iX3lDprWXjWlG3sgwvSe0gY2beseQ5TF4ztXDjqt++caru5C3MzQWGdvM7L9VZDj4WCh4AZ3xuJGJm/icifb+n3xrowck6WeiC1uN+0a1TOLPajptUWVQWu13yH4IzDVk2tSGtMWqa8nzLex+ts8YU2Afg/zxxx/kaf4GzSVnCicBYF0AAAAASUVORK5CYII=">                                            Google
+                                        </a>
+                                        <a class="social-btn btn-facebook" href="#" rel="nofollow">
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEbElEQVR4nO2Yj2sbZRjHr/qXTJi9q7K6OkU7XEXBCYIKm+jQjdxt1s0yp2UwGXTdSkfRDjcV3UCxyBTqj+HEMrC1ndPZHxuiXR1NOzvX1nZtmve9ND+bn195bk16SXNpLtckBfPAF8LlyeX7ufd53/e5VxBKUYpS/P8CQJnL5XqQc97IGLvIOR/hnHs558hSlDtMv2WMHVNVtaowzl/A3Rtexc6Oyx7VhNlsZXc6ndvp4eTF+717sE6Ucen0ef9qG0eK+lRVXbeq5itseEKS4d57MgTG8moeJMbYHOe8ZlXMl9uwVZKx8HBdDGMTrryb50sQQcsQkg3rRQWqpACf/OArmHmuG4ncy6kRd4kK+sl8TX0UM47CmudL6s1pYlfIkMk86aPv8j5xkUlOp3ObaQBRwXUyv6EWGJtQiwrAOR82ZV5SsCX+9He1hIptHiRVVTeaAWhZK+XDF8UYO5p9+ci4FAfouuJeKwDdZgAm4wCjtwq39vPMspspIX8cIN3y+fLxsPadkQZHVoamvBPtATMAHjMACTOOueU3a7vgw/GzgSQ9/XZEy2/4bCGR1zXgxgfn/Pii04vxKRWdAx4M3XAZAnQt5tP90618OQFMTK+8hF7o9eD+PYD8bghzTo5ZB8e+U8GkUaFWRG9a/3k2Tf6j+2P4ccBjHeDGeOZy6B+aR9XeGJ45HEnAtrYHULEbOH3eh4kpFVf+msdzDRFDgFaD/Oo3qP9SrQFcGzUGoAlObcZjb0Zhv7mUt/lAFNS56nMHhuYNATZnyKdysgTQd20+rfmpGRXPNkTwwGsx9A4mL7WVtUBj29JcINEcMAKozJBPc8ISwLcXvcvMOxlH7Xsh3Lcb+P6X5Dol7WgO4/H6qFYO8Wu0IRoB7MiQ/9NVtzWA1vblOzGtNPTd80ci2hPS66turzYvqIciU0faFjRYqnEjgH6D/Lr3g9YncepNaI3PtAfsOxlMmKInW1kbw5MHo9qDeGR/LGFa/5kn5QNb3oriRLt/2RKeE8BTh6JmNpu8SsgFINuddW0ByHDrAWg4i22ec+4zAzCiB6CaTNdSFFKMsVtmAHpSy+jTDl+xAXqyB1BwLBWg+kAM/0wW79WSMdaUNYBoQ1W6JbL+42AxAaqzBhAElEky7KkAtPP+e7vwo8AYGxTMRoWM7akA1DLPOIpSRq+YBlgchT49wM6WcMHND99U/875xJpOpCUZc2SeWoLUrnNsXMUf9vTdqlVNTqv48JwvcPhMaJNgJUQZNaKC4MEzQXRfdaPjNw9OfePHS81hbU4Q3NZDEdCxO7XAVkzPOrj2FkbN4kN10QCdilsyr4eIj0QmUSP2YlMYTZ8H8HWPFz//7sbQqEsDuz17B44OCegti67/+qcbX3Z60Xw2AKU1hE2v33ntFGXwVTOfUk69K0FYlozL62XcI+QnUFauYJukYHi1jYsKrosydtF/CIUIScFGScZRUUE3AYkyPCYMByQZ0/RbUcE75TZUF8x4KUpRCmFNxX8QRqbiSsmKAQAAAABJRU5ErkJggg==">                                            Zalo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                Bạn đã có tài khoản? <a id="loginLink">Đăng nhập ngay</a>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="header-breadcrumb" id="header-breadcrumb">
+    </div>
+    <div class="content" id="product-detail"></div>
+    <footer>
+        <div class="footer-top">
+            <div class="footer-item">
+                <b style="font-size: 13px;">Chính sách bán hàng</b>
+                <ul>
+                    <li><a href="">Chính sách bảo hành</a></li>
+                    <li><a href="">Chính sách mua hàng online</a></li>
+                    <li><a href="">Chính sách bảo mật thông tin khách hàng</a></li>
+                </ul>
+            </div>
+            <div class="footer-item">
+                <div class="footer-top-title"><b>Tổng đài hỗ trợ</b><span style="color: rgba(0, 0, 0, 0.822);">(Từ 8:00 đến 21:00)</span></div>
+                <div class="footer-text">
+                    <div>Hotline bán hàng</div>
+                    <a href="tel:0342999999"><b>0342999999</b></a>
+                    <div>Hotline bảo hành kỹ thuật</div>
+                    <a href="tel:0342999999"><b>0342999999</b></a>
+                    <div>Hotline hỗ trợ phần mềm</div>
+                    <a href="tel:0342999999"><b>0342999999</b></a>
+                </div>
+            </div>
+            <div style="margin-left: 50px;">
+                <div style="font-weight: bold;font-size: 13px;">Địa chỉ:</div>
+                <ul id="location-1" class="tab-pane active">
+                    <li class="store-list__item" store-id="7">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">375 Cầu Giấy, Hà Nội</span>:
+                        <a href="tel:0911542468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0911.542.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="8">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">111 Trần Đăng Ninh, Cầu Giấy, Hà Nội</span>:
+                        <a href="tel:0976732468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0976.732.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="10">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">118 Thái hà, Đống Đa, Hà Nội</span>:
+                        <a href="tel:0964242468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0964.242.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="9">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">446 Xã Đàn, Đống Đa, Hà Nội</span>:
+                        <a href="tel:0961112468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0961.112.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="12">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">312 Nguyễn Trãi, P.Trung Văn, Q.Nam Từ Liêm, Hà Nội (gần Đại Học Hà Nội)</span>:
+                        <a href="tel:0946982468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0946.982.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="6">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">380 Trần Phú, Ba Đình, TP.Thanh Hóa</span>:
+                        <a href="tel:0969142468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0969.142.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="13">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">Ngã 3 Đông Yên, Yên Phong, Bắc Ninh (Khu công nghiệp Yên Phong)</span>:
+                        <a href="tel:0941442468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0941.442.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="14">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">269 Nguyễn Hữu Tiến, TT Đồng Văn, Duy Tiên, Hà Nam</span>:
+                        <a href="tel:0357.209.209" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0357.209.209</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="15">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">TTBH Hà Nội 1: Tầng 2, số 111 Trần Đăng Ninh, Cầu Giấy, Hà Nội</span>:
+                        <a href="tel:024.6683.9292" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">024.6683.9292 </b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="24">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">TTBH Hà Nội 2: Tầng 2, số 375 Cầu Giấy, Hà Nội</span>:
+                        <a href="tel:0974504900" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0974.504.900</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="footer-itme"></div>
+        </div>
+        <a href="#" id="backToTop">
+            <div class="icon-up">
+                <svg height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M416 352c-8.188 0-16.38-3.125-22.62-9.375L224 173.3l-169.4 169.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25C432.4 348.9 424.2 352 416 352z"></path></svg>
+            </div>Lên đầu
+        </a>
+        <div class="social-icons">
+            <a href="tel:0123456789" class="icon call" title="Call">
+                <img src="https://clickbuy.com.vn/assets/images/icon-phone.png" alt="Call" />
+            </a>
+            <a href="https://m.me/yourprofile" target="_blank" class="icon messenger" title="Message">
+                <img src="https://clickbuy.com.vn/assets/images/icon-mess.png" alt="Messenger" />
+            </a>
+            <a href="https://zalo.me/yourprofile" target="_blank" class="icon zalo" title="Zalo">
+                <img src="https://clickbuy.com.vn/assets/images/icon-zalo.png" alt="Zalo" />
+            </a>
+        </div>
+    </footer>
+    <div style="text-align: center;background-color: #f0f0f0;line-height: 40px;font-size: 12px;">© 2013 ~ 2024 - Công ty TNHH Hoàng Đức Thịnh. GPKD số 0106081880 do Sở KH & ĐT Thành phố Hà Nội cấp ngày 10/01/2013</div>
+    <script src="index-detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.7.1/css/all.css">
+    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="media_style.css">
+    <script src="./data.js"></script>
+    <script src="./data_accessory.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <header>
+        <nav>
+            <div>
+                <a href="./main.html"><img class="logo" src="./Images/Logo/Spotify_Full_Logo_RGB_White.png" alt=""></a>
+            </div>
+            <form class="form">
+                <button>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                    <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </button>
+                <input class="input" placeholder="Bạn cần tìm gì..." required="" type="text">
+                <button class="reset" type="reset">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </form>
+            <ul class="ul-title">
+                <li class="li-title"><a href=""><i class="fa-solid fa-phone" ></i><span>Gọi mua hàng<br>0342549974</span></a></li>
+                <li class="li-title"><a href=""><i class="fa-solid fa-shield" ></i><span>Chính sách<br> bảo hành</span></a></li>
+                <li class="li-title"><a href=""><i class="fa-solid fa-location-dot" ></i><span>Hệ thống<br>cửa hàng</span></a></li>
+                <li class="li-title">
+                    <a id="loginButton" style="cursor: pointer;"><i class="fa-solid fa-user" ></i><span>Đăng nhập <br>tài khoản</span></a>
+                    <div id="loginModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" id="closeLogin">&times;</span>
+                            <h2>Đăng nhập tài khoản</h2>
+                            <form id="loginForm">
+                                <input class="inputForm" id="username" type="text" placeholder="Nhập số điện thoại/email *" name="username" required />
+                                <input class="inputForm" id="password" type="password" placeholder="Nhập mật khẩu *" name="password" required />
+                                <button class="button-submit" type="submit">Đăng nhập</button>
+                            </form>
+                            <p>Hoặc</p>
+                            <div class="social-login">
+                                <div class="social-btn-box">
+                                    <a class="social-btn" href="#" rel="nofollow">
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEkUlEQVR4nO2Zb0wbZRzHn3taesUtRpOJYbo/DoQM5c/GMgryzxkYxbGBiQsbNBCEFGaIY8zCCuaUMSiQAQMGQWAgcSY2GeuNuzpc8NqNvRoCItE3841Dthj3ToNzbX+mVRBI197Zo2VJv8n3XZ+nn89dn6dPrwj5448/HgcoJIWqgGIoxywU4HuQTfwJSsIKBxBAKgJIQzbIJhZBhX+BE/g6VAUU2ccgXwc0UgWU4tvwNmGBJASCqiQsoMa3QRsQ433wOlk4qPEsvCkQ2llTEUAxnoEaFOIdeA3RCumEzWPwtT2IrHCK0K0f+HkUCMX4B9HBk9b0PTwNFJKJC9+NngcVfrDu8En/toJoFw9+EMnhOPGr1+DLCE40eIeAGn/vPXgsMvyHRIfgrbEMT0IlroUmaQpQaAtQKAjOSN6C05hy7Db21zgbW4pN4sI3kyGQQVh5g5+W9PJZfEChZ+ADydAqkVKR4R1vVIHv8IIvwPNwDr0oeP4aFAJ5+P76wJvl22CcfAQaCUCyC/gSPAV6JEEbLWAmdWAmwdHeAIB0wvmV35DweiQBs2x+WcDeURmACv8Hn0lYoAK9hDZiwCSPXwW/VI4E0En/ObuclPSjjRowybROBZY6FPAAyhGJNmrATF5xKWCSdQiZL1gzC2I0XDthO9rUd9e9gImccynAkRm+EAjWzMIbddcW+Qg8dCMQ6iuB3TW3rHwEHrkWQJt9JbCjehKeaoHtVd+C5x+hm7IwXwns1t60Pd2L+JNRHovYTI642UY7fSVwRDc8z0NAduZJ8A+5Z6Geif/jvF4RiEROy3D+puiPvrG4Eii/0DjqXoALVDiDnx0PBhWthENXs6HDGHtJbIGTnfX97u6Arq/iuHsBQBjMsntL4DYzCfRYOGQbDjvg7c2jlZaL11/bJhZ8W496Z2SNyeoK/vVas4XiKH5P88BENtrhfzdthrNMwjL4ylaPJi9wXIrHjwcpjpIeafxswd3VL2lrm+A9KXCBL98df+GvEjrdKfxSP2YTZjyRoDhKmt/SM+d2/6+egsbuylhBkzcwihlX8CvvRP/X4VuFwvfeiNhe1lX3E5/d51hz75zQ+RE9FvZKPq208pHIp5WWzq/2DlCDKXJ38w6PRW1qZ/b15RmU1pyRHDja2uH2FEp9ekrQl+dyutmY1iweAitFGljFdJdxL6VnIw5cGdsVdJkL2zJgjEq8aNxTV8ckTNpfs3JM1kgOFPZQsLXqO6cC77c3dSNPomPjpvkKeNKiwXLYWX1nFfy7TQM/Ik+j10fINHTqfW9IFH5RCJG1Jgd8ev2Xv53o6hJ0cHxiOG7HczVM4oI3JI7pc0HVemGeGq4MEgV+hYT8LBM/K2RN/J+eYxXTRmPo+v3m7jNGNecaMq2iX3lDprWXjWlG3sgwvSe0gY2beseQ5TF4ztXDjqt++caru5C3MzQWGdvM7L9VZDj4WCh4AZ3xuJGJm/icifb+n3xrowck6WeiC1uN+0a1TOLPajptUWVQWu13yH4IzDVk2tSGtMWqa8nzLex+ts8YU2Afg/zxxx/kaf4GzSVnCicBYF0AAAAASUVORK5CYII=">                                        Google
+                                    </a>
+                                    <a class="social-btn" href="#" rel="nofollow">
+                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEbElEQVR4nO2Yj2sbZRjHr/qXTJi9q7K6OkU7XEXBCYIKm+jQjdxt1s0yp2UwGXTdSkfRDjcV3UCxyBTqj+HEMrC1ndPZHxuiXR1NOzvX1nZtmve9ND+bn195bk16SXNpLtckBfPAF8LlyeX7ufd53/e5VxBKUYpS/P8CQJnL5XqQc97IGLvIOR/hnHs558hSlDtMv2WMHVNVtaowzl/A3Rtexc6Oyx7VhNlsZXc6ndvp4eTF+717sE6Ucen0ef9qG0eK+lRVXbeq5itseEKS4d57MgTG8moeJMbYHOe8ZlXMl9uwVZKx8HBdDGMTrryb50sQQcsQkg3rRQWqpACf/OArmHmuG4ncy6kRd4kK+sl8TX0UM47CmudL6s1pYlfIkMk86aPv8j5xkUlOp3ObaQBRwXUyv6EWGJtQiwrAOR82ZV5SsCX+9He1hIptHiRVVTeaAWhZK+XDF8UYO5p9+ci4FAfouuJeKwDdZgAm4wCjtwq39vPMspspIX8cIN3y+fLxsPadkQZHVoamvBPtATMAHjMACTOOueU3a7vgw/GzgSQ9/XZEy2/4bCGR1zXgxgfn/Pii04vxKRWdAx4M3XAZAnQt5tP90618OQFMTK+8hF7o9eD+PYD8bghzTo5ZB8e+U8GkUaFWRG9a/3k2Tf6j+2P4ccBjHeDGeOZy6B+aR9XeGJ45HEnAtrYHULEbOH3eh4kpFVf+msdzDRFDgFaD/Oo3qP9SrQFcGzUGoAlObcZjb0Zhv7mUt/lAFNS56nMHhuYNATZnyKdysgTQd20+rfmpGRXPNkTwwGsx9A4mL7WVtUBj29JcINEcMAKozJBPc8ISwLcXvcvMOxlH7Xsh3Lcb+P6X5Dol7WgO4/H6qFYO8Wu0IRoB7MiQ/9NVtzWA1vblOzGtNPTd80ci2hPS66turzYvqIciU0faFjRYqnEjgH6D/Lr3g9YncepNaI3PtAfsOxlMmKInW1kbw5MHo9qDeGR/LGFa/5kn5QNb3oriRLt/2RKeE8BTh6JmNpu8SsgFINuddW0ByHDrAWg4i22ec+4zAzCiB6CaTNdSFFKMsVtmAHpSy+jTDl+xAXqyB1BwLBWg+kAM/0wW79WSMdaUNYBoQ1W6JbL+42AxAaqzBhAElEky7KkAtPP+e7vwo8AYGxTMRoWM7akA1DLPOIpSRq+YBlgchT49wM6WcMHND99U/875xJpOpCUZc2SeWoLUrnNsXMUf9vTdqlVNTqv48JwvcPhMaJNgJUQZNaKC4MEzQXRfdaPjNw9OfePHS81hbU4Q3NZDEdCxO7XAVkzPOrj2FkbN4kN10QCdilsyr4eIj0QmUSP2YlMYTZ8H8HWPFz//7sbQqEsDuz17B44OCegti67/+qcbX3Z60Xw2AKU1hE2v33ntFGXwVTOfUk69K0FYlozL62XcI+QnUFauYJukYHi1jYsKrosydtF/CIUIScFGScZRUUE3AYkyPCYMByQZ0/RbUcE75TZUF8x4KUpRCmFNxX8QRqbiSsmKAQAAAABJRU5ErkJggg==">                                        Zalo
+                                    </a>
+                                </div>
+                            </div>
+                            <p>
+                                Bạn chưa có tài khoản? <a id="registerLink">Đăng ký ngay</a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Modal Đăng Ký -->
+                    <div id="registerModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close" id="closeRegister">&times;</span>
+                            <h2>Đăng ký tài khoản</h2>
+                            <form id="registerForm">
+                                <input class="inputForm" id="fullname" type="text" placeholder="Nhập họ và tên *" name="fullname" required />
+                                <input class="inputForm" id="phone" type="tel" placeholder="Nhập số điện thoại *" name="phone" required pattern="^0[0-9]{9,10}$" title="Số điện thoại phải bắt đầu bằng số 0 và có 10-11 chữ số" />
+                                <input class="inputForm" id="email" type="email" placeholder="Nhập email (không bắt buộc)" name="email" />
+                                <select class="select" name="city" required style="width: 100% ;">
+                                        <option value="0">Tỉnh/ thành phố (*)</option>
+                                        <option value="1">Hà Nội</option><option value="79">Hồ Chí Minh</option>
+                                        <option value="2">Hà Giang</option>
+                                        <option value="4">Cao Bằng</option>
+                                        <option value="6">Bắc Kạn</option>
+                                        <option value="8">Tuyên Quang</option>
+                                        <option value="10">Lào Cai</option>
+                                        <option value="11">Điện Biên</option>
+                                        <option value="12">Lai Châu</option>
+                                        <option value="14">Sơn La</option>
+                                        <option value="15">Yên Bái</option>
+                                        <option value="17">Hoà Bình</option>
+                                        <option value="19">Thái Nguyên</option>
+                                        <option value="20">Lạng Sơn</option>
+                                        <option value="22">Quảng Ninh</option>
+                                        <option value="24">Bắc Giang</option>
+                                        <option value="25">Phú Thọ</option>
+                                        <option value="26">Vĩnh Phúc</option>
+                                        <option value="27">Bắc Ninh</option>
+                                        <option value="30">Hải Dương</option>
+                                        <option value="31">Hải Phòng</option>
+                                        <option value="33">Hưng Yên</option>
+                                        <option value="34">Thái Bình</option>
+                                        <option value="35">Hà Nam</option>
+                                        <option value="36">Nam Định</option>
+                                        <option value="37">Ninh Bình</option>
+                                        <option value="38">Thanh Hóa</option>
+                                        <option value="40">Nghệ An</option>
+                                        <option value="42">Hà Tĩnh</option>
+                                        <option value="44">Quảng Bình</option>
+                                        <option value="46">Thừa Thiên Huế</option>
+                                        <option value="48">Đà Nẵng</option>
+                                        <option value="49">Quảng Nam</option>
+                                        <option value="51">Quảng Ngãi</option>
+                                        <option value="52">Bình Định</option>
+                                        <option value="54">Phú Yên</option>
+                                        <option value="56">Khánh Hòa</option>
+                                        <option value="68">Lâm Đồng</option>
+                                        <option value="72">Tây Ninh</option>
+                                        <option value="74">Bình Dương</option>
+                                        <option value="75">Đồng Nai</option>
+                                        <option value="77">Bà Rịa - Vũng Tàu</option>
+                                        <option value="80">Long An</option>
+                                        <option value="82">Tiền Giang</option>
+                                        <option value="83">Bến Tre</option>
+                                        <option value="84">Trà Vinh</option>
+                                        <option value="86">Vĩnh Long</option>
+                                        <option value="87">Đồng Tháp</option>
+                                        <option value="89">An Giang</option>
+                                        <option value="91">Kiên Giang</option>
+                                        <option value="92">Cần Thơ</option>
+                                        <option value="93">Hậu Giang</option>
+                                        <option value="94">Sóc Trăng</option>
+                                        <option value="95">Bạc Liêu</option>
+                                        <option value="96">Cà Mau</option>
+                                </select >
+                                <input class="inputForm" id="password1" type="password" placeholder="Nhập mật khẩu *" name="password" required />
+                                <input class="inputForm" id="confirm_password" type="password" placeholder="Nhập lại mật khẩu *" name="confirm_password" required />
+                                <button class="button-submit" type="submit">Đăng ký</button>
+                            </form>
+                            <div class="alternative">
+                                <p>Hoặc</p>
+                                <div class="social-login">
+                                    <div class="social-btn-box">
+                                        <a class="social-btn btn-google" href="#" rel="nofollow">
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEkUlEQVR4nO2Zb0wbZRzHn3taesUtRpOJYbo/DoQM5c/GMgryzxkYxbGBiQsbNBCEFGaIY8zCCuaUMSiQAQMGQWAgcSY2GeuNuzpc8NqNvRoCItE3841Dthj3ToNzbX+mVRBI197Zo2VJv8n3XZ+nn89dn6dPrwj5448/HgcoJIWqgGIoxywU4HuQTfwJSsIKBxBAKgJIQzbIJhZBhX+BE/g6VAUU2ccgXwc0UgWU4tvwNmGBJASCqiQsoMa3QRsQ433wOlk4qPEsvCkQ2llTEUAxnoEaFOIdeA3RCumEzWPwtT2IrHCK0K0f+HkUCMX4B9HBk9b0PTwNFJKJC9+NngcVfrDu8En/toJoFw9+EMnhOPGr1+DLCE40eIeAGn/vPXgsMvyHRIfgrbEMT0IlroUmaQpQaAtQKAjOSN6C05hy7Db21zgbW4pN4sI3kyGQQVh5g5+W9PJZfEChZ+ADydAqkVKR4R1vVIHv8IIvwPNwDr0oeP4aFAJ5+P76wJvl22CcfAQaCUCyC/gSPAV6JEEbLWAmdWAmwdHeAIB0wvmV35DweiQBs2x+WcDeURmACv8Hn0lYoAK9hDZiwCSPXwW/VI4E0En/ObuclPSjjRowybROBZY6FPAAyhGJNmrATF5xKWCSdQiZL1gzC2I0XDthO9rUd9e9gImccynAkRm+EAjWzMIbddcW+Qg8dCMQ6iuB3TW3rHwEHrkWQJt9JbCjehKeaoHtVd+C5x+hm7IwXwns1t60Pd2L+JNRHovYTI642UY7fSVwRDc8z0NAduZJ8A+5Z6Geif/jvF4RiEROy3D+puiPvrG4Eii/0DjqXoALVDiDnx0PBhWthENXs6HDGHtJbIGTnfX97u6Arq/iuHsBQBjMsntL4DYzCfRYOGQbDjvg7c2jlZaL11/bJhZ8W496Z2SNyeoK/vVas4XiKH5P88BENtrhfzdthrNMwjL4ylaPJi9wXIrHjwcpjpIeafxswd3VL2lrm+A9KXCBL98df+GvEjrdKfxSP2YTZjyRoDhKmt/SM+d2/6+egsbuylhBkzcwihlX8CvvRP/X4VuFwvfeiNhe1lX3E5/d51hz75zQ+RE9FvZKPq208pHIp5WWzq/2DlCDKXJ38w6PRW1qZ/b15RmU1pyRHDja2uH2FEp9ekrQl+dyutmY1iweAitFGljFdJdxL6VnIw5cGdsVdJkL2zJgjEq8aNxTV8ckTNpfs3JM1kgOFPZQsLXqO6cC77c3dSNPomPjpvkKeNKiwXLYWX1nFfy7TQM/Ik+j10fINHTqfW9IFH5RCJG1Jgd8ev2Xv53o6hJ0cHxiOG7HczVM4oI3JI7pc0HVemGeGq4MEgV+hYT8LBM/K2RN/J+eYxXTRmPo+v3m7jNGNecaMq2iX3lDprWXjWlG3sgwvSe0gY2beseQ5TF4ztXDjqt++caru5C3MzQWGdvM7L9VZDj4WCh4AZ3xuJGJm/icifb+n3xrowck6WeiC1uN+0a1TOLPajptUWVQWu13yH4IzDVk2tSGtMWqa8nzLex+ts8YU2Afg/zxxx/kaf4GzSVnCicBYF0AAAAASUVORK5CYII=">                                            Google
+                                        </a>
+                                        <a class="social-btn btn-facebook" href="#" rel="nofollow">
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAEbElEQVR4nO2Yj2sbZRjHr/qXTJi9q7K6OkU7XEXBCYIKm+jQjdxt1s0yp2UwGXTdSkfRDjcV3UCxyBTqj+HEMrC1ndPZHxuiXR1NOzvX1nZtmve9ND+bn195bk16SXNpLtckBfPAF8LlyeX7ufd53/e5VxBKUYpS/P8CQJnL5XqQc97IGLvIOR/hnHs558hSlDtMv2WMHVNVtaowzl/A3Rtexc6Oyx7VhNlsZXc6ndvp4eTF+717sE6Ucen0ef9qG0eK+lRVXbeq5itseEKS4d57MgTG8moeJMbYHOe8ZlXMl9uwVZKx8HBdDGMTrryb50sQQcsQkg3rRQWqpACf/OArmHmuG4ncy6kRd4kK+sl8TX0UM47CmudL6s1pYlfIkMk86aPv8j5xkUlOp3ObaQBRwXUyv6EWGJtQiwrAOR82ZV5SsCX+9He1hIptHiRVVTeaAWhZK+XDF8UYO5p9+ci4FAfouuJeKwDdZgAm4wCjtwq39vPMspspIX8cIN3y+fLxsPadkQZHVoamvBPtATMAHjMACTOOueU3a7vgw/GzgSQ9/XZEy2/4bCGR1zXgxgfn/Pii04vxKRWdAx4M3XAZAnQt5tP90618OQFMTK+8hF7o9eD+PYD8bghzTo5ZB8e+U8GkUaFWRG9a/3k2Tf6j+2P4ccBjHeDGeOZy6B+aR9XeGJ45HEnAtrYHULEbOH3eh4kpFVf+msdzDRFDgFaD/Oo3qP9SrQFcGzUGoAlObcZjb0Zhv7mUt/lAFNS56nMHhuYNATZnyKdysgTQd20+rfmpGRXPNkTwwGsx9A4mL7WVtUBj29JcINEcMAKozJBPc8ISwLcXvcvMOxlH7Xsh3Lcb+P6X5Dol7WgO4/H6qFYO8Wu0IRoB7MiQ/9NVtzWA1vblOzGtNPTd80ci2hPS66turzYvqIciU0faFjRYqnEjgH6D/Lr3g9YncepNaI3PtAfsOxlMmKInW1kbw5MHo9qDeGR/LGFa/5kn5QNb3oriRLt/2RKeE8BTh6JmNpu8SsgFINuddW0ByHDrAWg4i22ec+4zAzCiB6CaTNdSFFKMsVtmAHpSy+jTDl+xAXqyB1BwLBWg+kAM/0wW79WSMdaUNYBoQ1W6JbL+42AxAaqzBhAElEky7KkAtPP+e7vwo8AYGxTMRoWM7akA1DLPOIpSRq+YBlgchT49wM6WcMHND99U/875xJpOpCUZc2SeWoLUrnNsXMUf9vTdqlVNTqv48JwvcPhMaJNgJUQZNaKC4MEzQXRfdaPjNw9OfePHS81hbU4Q3NZDEdCxO7XAVkzPOrj2FkbN4kN10QCdilsyr4eIj0QmUSP2YlMYTZ8H8HWPFz//7sbQqEsDuz17B44OCegti67/+qcbX3Z60Xw2AKU1hE2v33ntFGXwVTOfUk69K0FYlozL62XcI+QnUFauYJukYHi1jYsKrosydtF/CIUIScFGScZRUUE3AYkyPCYMByQZ0/RbUcE75TZUF8x4KUpRCmFNxX8QRqbiSsmKAQAAAABJRU5ErkJggg==">                                            Zalo
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>
+                                Bạn đã có tài khoản? <a id="loginLink">Đăng nhập ngay</a>
+                            </p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="content">
+        <div class="title">
+            <span><img  src="./Images/clipse.svg" alt="clipse" width="30px" height="30px" style="padding-right: 5px;margin-bottom: -10px;"></span>IPHONE 16 PRO MAX CHỈ CÒN 32.890.000Đ - TẶNG BẢO HÀNH RƠI VỠ, VÀO NƯỚC. Xem
+            ngay
+        </div>
+        <div class="sidebar-banner">
+            <div class="sildebar">
+                <ul class="category">
+                    <li class="menu-item">
+                        <a href=""><img src="https://clickbuy.com.vn/uploads/images/icon/icon-hot.gif" width="24px" height="24px" alt="" style="margin-right: 10px;">iPhone 16</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href=""><img src="https://clickbuy.com.vn/uploads/images/icon/icon-hot.gif" width="24px" height="24px" alt="" style="margin-right: 10px;">iPhone 15</a>
+                    </li>
+                    <li class="menu-item" data-target="phone1"><a class="menu-catetory" href=""><i class="fa-light fa-mobile fa-2x" style="margin-right: 10px;color: red;"></i>Điện thoại</a></li>
+                    <li class="menu-item" data-target="iphone"><a class="menu-catetory" href=""><i class="fa-light fa-mobile fa-2x" style="margin-right: 10px;color: red;"></i>iPhone</a></li>
+                    <li class="menu-item" data-target="samsung">
+                        <a class="menu-catetory" href=""><img src="https://clickbuy.com.vn/uploads/images/2023/09/2.png?v=webp" alt="" width="24" height="24">Samsung</a>
+                    </li>
+                    <li class="menu-item" data-target="tablet">
+                        <a class="menu-catetory" href=""><img src="https://clickbuy.com.vn/uploads/images/2023/09/3.png?v=webp" width="24px" height="24px">Tablet</a>
+                    </li>
+                    <li class="menu-item" data-target="laptop">
+                        <a class="menu-catetory" href=""><img src="https://clickbuy.com.vn/uploads/images/2023/09/5.png?v=webp" width="24px" height="24px">Laptop</a>
+                    </li>
+                    <li class="menu-item" data-target="watch"><a class="menu-catetory" href=""><i class="fa-light fa-watch fa-2x" style="margin-right: 10px;color: red; "></i>Đồng hồ</a></li>
+                    <li class="menu-item" data-target="Usedgoods">
+                        <a href="" class="menu-catetory"><img src="https://clickbuy.com.vn/uploads/images/2023/09/7.png" alt="" width="24px" height="24px">Hàng cũ</a>
+                    </li>
+                    <li class="menu-item">
+                        <a href=""><img src="https://clickbuy.com.vn/uploads/images/2023/09/8.png" alt="" width="24px" height="24px">Thu cũ</a>
+                    </li>
+                    <li class="menu-item" data-target="repair">
+                        <a class="menu-catetory" href=""><img src="https://clickbuy.com.vn/uploads/images/icon/icon-sua-chua.png" alt="" width="24px" height="24px">Sửa chữa</a>
+                    </li>
+                    <li class="menu-item" data-target="accessory">
+                        <a class="menu-catetory" href=""><img src="https://clickbuy.com.vn/uploads/files/sac_pin-removebg-preview1.png" alt="" width="24px" height="24px">Phụ kiện</a>
+                    </li>
+                    <li class="menu-item" data-target="sound">
+                        <a class="menu-catetory" href=""><img src="https://clickbuy.com.vn/uploads/images/icon/am-thanh.png" alt="" width="24px" height="24px">Âm thanh</a>
+                    </li>
+                </ul>
+                <div class="menu-level-2">
+                    <div class="submenu" id="phone1">
+                        <ul>
+                            <h5>Chọn theo hãng</h5>
+                            <li><a href="#">iPhone</a></li>
+                            <li><a href="#">Samsung</a></li>
+                            <li><a href="#">Xiaomi</a></li>
+                            <li><a href="#">TECNO</a></li>
+                            <li><a href="#">Realme</a></li>
+                        </ul>
+                        <ul>
+                            <h5>Điện thoại hot</h5>
+                            <li><a href="">iPhone 16</a></li>
+                            <li><a href="">iPhone 15</a></li>
+                            <li><a href="">Galaxy S24 Ultra</a></li>
+                            <li><a href="">Xiaomi Note 13</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="iphone">
+                        <ul>
+                            <h5>Chọn theo dòng</h5>
+                            <li><a href="">iPhone 16 Series</a></li>
+                            <li><a href="">iPhone 15 Series</a></li>
+                            <li><a href="">iPhone 14 Series</a></li>
+                            <li><a href="">iPhone 13 Series</a></li>
+                            <li><a href="">iPhone 12 Series</a></li>
+                            <li><a href="">iPhone 11 Series</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="samsung">
+                        <ul>
+                            <h5>Chọn theo dòng</h5>
+                            <li><a href="">Galaxy S24 Ultra</a></li>
+                            <li><a href="">Galaxy Z</a></li>
+                            <li><a href="">Galaxy S</a></li>
+                            <li><a href="">Galaxy A</a></li>
+                            <li><a href="">Galaxy M</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="tablet">
+                        <ul>
+                            <h5>Apple iPad</h5>
+                            <li><a href="#">iPad Pro</a></li>
+                            <li><a href="#">iPad Air</a></li>
+                            <li><a href="#">iPad Gen 10</a></li>
+                            <li><a href="#">iPad Gen 9</a></li>
+                            <li><a href="#">iPad mini</a></li>
+                        </ul>
+                        <ul>
+                            <h5>Table Android</h5>
+                            <li><a href="">Samsung tab</a></li>
+                            <li><a href="">Leovo tab</a></li>
+                            <li><a href="">Mi tab</a></li>
+                            <li><a href="">Nokia tab</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="laptop">
+                        <ul>
+                            <h5>MacBook</h5>
+                            <li><a href="#">Mac Air</a></li>
+                            <li><a href="#">Mac pro</a></li>
+                            <li><a href="#">iMac</a></li>
+                        </ul>
+                        <ul>
+                            <h5>Laptop Windows</h5>
+                            <li><a href="">Asus</a></li>
+                            <li><a href="">Dell</a></li>
+                            <li><a href="">Lenovo</a></li>
+                            <li><a href="">Acer</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="watch">
+                        <ul>
+                            <h5>Apple watch</h5>
+                            <li><a href="#">Apple Watch Ultra 2</a></li>
+                            <li><a href="#">Apple Watch Series 10</a></li>
+                            <li><a href="#">Watch SE 2024</a></li>
+                            <li><a href="#">Apple Watch Series 9</a></li>
+                        </ul>
+                        <ul>
+                            <h5>Hãng khác</h5>
+                            <li><a href="">Samsung watch</a></li>
+                            <li><a href="">Miband</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="Usedgoods">
+                        <ul>
+                            <h5>Chọn loại sản phẩm cũ</h5>
+                            <li><a href="#">Iphone cũ</a></li>
+                            <li><a href="#">Ipad cũ</a></li>
+                            <li><a href="#">Samsung cũ</a></li>
+                            <li><a href="#">Sony cũ</a></li>
+                            <li><a href="#">Google</a></li>
+                            <li><a href="#">Macbook cũ</a></li>
+                        </ul>
+                        <ul>
+                            <h5>iPhone cũ</h5>
+                            <li><a href="">iPhone 14 Series cũ</a></li>
+                            <li><a href="">iPhone 13 Series cũ</a></li>
+                            <li><a href="">iPhone 12 Series cũ</a></li>
+                            <li><a href="">iPhone 11 Series cũ</a></li>
+                            <li><a href="">iPhone XS Max cũ</a></li>
+                            <li><a href="">iPhone XS cũ</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="repair">
+                        <ul>
+                            <h5>Chọn dịch vụ</h5>
+                            <li><a href="">Thay màn hình</a></li>
+                            <li><a href="">Thay pin</a></li>
+                            <li><a href="">Thay ép kính</a></li>
+                            <li><a href="">Thay Kính Lưng</a></li>
+                            <li><a href="">Sửa Face ID</a></li>
+                            <li><a href="">Thay camera</a></li>
+                            <li><a href="">Thay phản quang</a></li>
+                            <li><a href="">Thay chân sạc</a></li>
+                            <li><a href="">Thay Loa</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="accessory">
+                        <ul>
+                            <h5>Phụ kiện điện thoại</h5>
+                            <li><a href="#">Ốp lưng, bao da</a></li>
+                            <li><a href="#">Dán màn hình</a></li>
+                            <li><a href="#">Phụ kiện Apple</a></li>
+                            <li><a href="#">Pin dự phòng</a></li>
+                            <li><a href="#">Phụ kiện Apple</a></li>
+                            <li><a href="#">Phụ kiện Samsung</a></li>
+                        </ul>
+                        <ul>
+                            <h5>Phụ kiện khác</h5>
+                            <li><a href="">Loa</a></li>
+                            <li><a href="">Tai nghe</a></li>
+                            <li><a href="">Phụ kiện laptop</a></li>
+                            <li><a href="">Camera giám sát</a></li>
+                        </ul>
+                    </div>
+                    <div class="submenu" id="sound">
+                        <ul>
+                            <h5>Tai nghe Applei</h5>
+                            <li><a href="#">Airpods 2</a></li>
+                            <li><a href="#">Apple AirPods 3</a></li>
+                            <li><a href="#">AirPods Pro 2</a></li>
+                            <li><a href="#">Airpods Pro 2021</a></li>
+                            <li><a href="#">Airpods Pro 2022</a></li>
+                        </ul>
+                        <ul>
+                            <h5>Tai nghe Samsung</h5>
+                            <li><a href="">Galaxy Buds FE</a></li>
+                            <li><a href="">Galaxy Buds 2</a></li>
+                            <li><a href="">Galaxy Buds 2 Pro</a></li>
+                            <li><a href="">Galaxy Buds Live</a></li>
+                        </ul>
+                        <h5>Loa</h5>
+                        <h5 style="margin-left: 30px;">Nổi bật</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="slideshow-container">
+                <div class="slider-list">
+                    <div class="mySlides">
+                        <a href="">
+                            <div class="numbertext">1 / 5</div>
+                            <img src="./Images/Slide/682-yLCEc.png" style="width:100%">
+                        </a>
+                    </div>
+                    <div class="mySlides">
+                        <a href="">
+                            <div class="numbertext">2 / 5</div>
+                            <img src="./Images/Slide/681-MUOth.png" style="width:100%">
+                        </a>
+                    </div>
+                    <div class="mySlides">
+                        <a href="">
+                            <div class="numbertext">3 / 5</div>
+                            <img src="./Images/Slide/665-esGCy.png" style="width:100%">
+                        </a>
+                    </div>
+                    <div class="mySlides">
+                        <a href="">
+                            <div class="numbertext">4 / 5</div>
+                            <img src="./Images/Slide/663-GXyQk.png" style="width:100%">
+                        </a>
+                    </div>
+                    <div class="mySlides">
+                        <a href="">
+                            <div class="numbertext">5 / 5</div>
+                            <img src="./Images/Slide/620-SkSDQ.png" style="width:100%">
+                        </a>
+                    </div>
+                </div>
+
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                <div style="text-align:center;margin-top: 20px;">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                    <span class="dot" onclick="currentSlide(5)"></span>
+                </div>
+                <div>
+                    <a href=""><img src="./Images/Slide/657-oKxHy.png" alt="" width="100%" style="border-radius: 10px;bottom:0px;margin-top: 20px;"></a>
+                </div>
+
+            </div>
+            <div class="slidebar-right">
+                <div style="color: red;text-align: center;">Khuyến mãi nổi bật</div>
+                <a href=""><img src="./Images/Slide/676-mNMfm.png" alt="" class="aside-image"></a>
+                <a href=""><img src="./Images/Slide/671-sKdOs.png" alt="" class="aside-image"></a>
+                <a href=""><img src="./Images/Slide/678-MbdGG.png" alt="" class="aside-image"></a>
+            </div>
+        </div>
+        <div class="flash-sale-container">
+            <!-- Header -->
+            <div class="flash-sale-header">
+                <img src="./Images/Slide/flash-sale-moi-ngay-large.png" alt="">
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="countdown-timer">
+                <div class="time-box">
+                    <span class="time">01</span>
+                    <span class="label">Ngày</span>
+                </div>
+                <div class="time-box">
+                    <span class="time">20</span>
+                    <span class="label">Giờ</span>
+                </div>
+                <div class="time-box">
+                    <span class="time">08</span>
+                    <span class="label">Phút</span>
+                </div>
+                <div class="time-box">
+                    <span class="time">45</span>
+                    <span class="label">Giây</span>
+                </div>
+            </div>
+
+            <!-- Product Slider -->
+            <div class="product-slider" > 
+                <button class="slider-btn prev">❮</button>
+                <div class="product-list" id="List_sale"></div>
+                <button class="slider-btn next">❯</button>
+            </div>
+            
+            <script type="module">
+                import products from './data.js';
+            
+                const List_sale = document.getElementById('List_sale');
+                const prevButton = document.querySelector('.slider-btn.prev');
+                const nextButton = document.querySelector('.slider-btn.next');
+            
+                const Products_sale = products.filter(product => product.flash_sale === "sale");
+            
+                let currentPosition = 0; // Vị trí hiện tại
+                let productWidth = 0; // Chiều rộng mỗi sản phẩm
+                let maxScroll = 0; // Giá trị cuộn tối đa
+            
+                function renderProducts2(Products_sale) {
+                    List_sale.innerHTML = ''; 
+                    Products_sale.forEach(product => {
+                        const div = document.createElement('div');
+                        div.style.cursor = 'pointer';
+                        div.innerHTML = `
+                            <div class="custom-product-card" data-type="${product.type}" style="width:219px;height:360px">
+                                <a  style="text-decoration: none;">
+                                    <div class="custom-discount">${product.discount}%</div>
+                                    <img src="${product.image}" alt="Product Image">
+                                    <div class="custom-product-label">
+                                        <span class="custom-installment">Trả góp 0%</span>
+                                        <span class="custom-free-ship">Miễn phí ship</span>
+                                    </div>
+                                    <h3 class="custom-product-title">${product.name}</h3>
+                                    <p class="custom-product-price">${product.price.toLocaleString()} đ <span class="custom-old-price">${product.oldPrice.toLocaleString()} đ</span></p>
+                                    <div class="custom-rating">
+                                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                        <span class="custom-rating-text">(${product.reviews} đánh giá)</span>
+                                    </div>
+                                    <div class="extra_icon">
+                                        <img src="https://clickbuy.com.vn/uploads/media/691-kXcGf.png" class="bottom-left">
+                                    </div>
+                                    <div class="promotion">
+                                        <div class="logo-promotion">KM</div>
+                                        <div class="text-promotion" style="text-align:left;">Học sinh, sinh viên giảm thêm 200.000 đ</div>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+            
+                        div.addEventListener('click', () => {
+                            localStorage.setItem('selectedProduct', JSON.stringify(product));
+                            window.location.href = 'product-detail.html';
+                        });
+            
+                        List_sale.appendChild(div);
+                    });
+            
+                    // Tính chiều rộng sản phẩm sau khi render
+                    productWidth = document.querySelector('.custom-product-card').offsetWidth + 20;
+                    maxScroll = List_sale.scrollWidth - List_sale.clientWidth;
+                }
+            
+                function moveNext() {
+                    if (currentPosition + productWidth > maxScroll) {
+                        // Nếu cuộn hết danh sách, quay lại đầu
+                        currentPosition = 0;
+                    } else {
+                        currentPosition += productWidth;
+                    }
+                    List_sale.style.transform = `translateX(-${currentPosition}px)`;
+                }
+            
+                function movePrev() {
+                    if (currentPosition - productWidth < 0) {
+                        // Nếu cuộn hết về đầu, quay lại cuối
+                        currentPosition = maxScroll;
+                    } else {
+                        currentPosition -= productWidth;
+                    }
+                    List_sale.style.transform = `translateX(-${currentPosition}px)`;
+                }
+            
+                // Thêm sự kiện vào các nút
+                nextButton.addEventListener("click", moveNext);
+                prevButton.addEventListener("click", movePrev);
+            
+            
+                // Gọi hàm render sản phẩm
+                renderProducts2(Products_sale);
+            </script>
+            
+        </div>
+        <!-- Phone -->
+        <div class="list">
+            <a class="filter-btn phone" href="list.html?type=all" data-type="all">Điện thoại</a>
+            <a class="filter-btn" href="list.html?type=iPhone" data-type="iPhone">iPhone</a>
+            <a class="filter-btn" href="list.html?type=Samsung" data-type="Samsung">Samsung</a>
+            <a class="filter-btn" href="list.html?type=Xiaomi" data-type="Xiaomi">Xiaomi</a>
+            <a class="filter-btn" href="list.html?type=TECNO" data-type="TECNO">TECNO</a>
+            <a class="filter-btn" href="list.html?type=Realme" data-type="Realme">Realme</a>
+            <a class="filter-btn" href="list.html?type=Oppo" data-type="Oppo">Oppo</a>
+            <a class="filter-btn" href="list.html?type=Vivo" data-type="Vivo">Vivo</a>
+        </div>
+        <div class="custom-product-container" id="product-list">
+
+        </div>
+    
+        <script type="module">
+            import products from './data.js';
+
+            const productList = document.getElementById('product-list');
+            
+            function renderProducts(filteredProducts) {
+                productList.innerHTML = ''; 
+                filteredProducts.forEach(product => {
+                    const div = document.createElement('div');
+                    div.style.cursor = 'pointer';
+                    div.innerHTML = `
+                    <div class="custom-product-card" data-type="${product.type}">
+                        <a  style="text-decoration: none;">
+                            <div class="custom-discount">${product.discount}%</div>
+                            <img src="${product.image}" alt="Product Image">
+                            <div class="custom-product-label">
+                                <span class="custom-installment">Trả góp 0%</span>
+                                <span class="custom-free-ship">Miễn phí ship</span>
+                            </div>
+                            <h3 class="custom-product-title">${product.name}</h3>
+                            <p class="custom-product-price">${product.price.toLocaleString()} đ <span class="custom-old-price">${product.oldPrice.toLocaleString()} đ</span></p>
+                            <div class="custom-rating">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                <span class="custom-rating-text">(${product.reviews} đánh giá)</span>
+                            </div>
+                            <div class="promotion">
+                                <div class="logo-promotion">KM</div>
+                                <div class="text-promotion">Học sinh, sinh viên giảm thêm 200.000 đ</div>
+                            </div>
+                        </a>
+                    </div>
+                    `;
+            
+                    div.addEventListener('click', () => {
+                        localStorage.setItem('selectedProduct', JSON.stringify(product));
+                        window.location.href = 'product-detail.html';
+                    });
+            
+                    productList.appendChild(div);
+                });
+            }
+            
+            renderProducts(products);
+            
+        </script>
+        <div class="list">
+            <button class="filter-btn phone"   data-type="iPhone">iPhone</button>
+            <div class="filter-btn"><a href="">iPhone 16 Series</a></div>
+            <div class="filter-btn"><a href="">iPhone 15 Series</a></div>
+            <div class="filter-btn"><a href="">iPhone 14 Series</a></div>
+            <div class="filter-btn"><a href="">iPhone 13 Series</a></div>
+            <div class="filter-btn"><a href="">iPhone 12 Series</a></div>
+
+        </div>
+        <div class="custom-product-container" id="product-list1">
+    
+        </div>
+        <script type="module">
+            import products from './data.js';
+
+            const productList2 = document.getElementById('product-list1');
+            // Lọc sản phẩm theo type "iPhone"
+            const filteredProducts2 = products.filter(product => product.type === "iPhone");
+
+            function renderProducts2(filteredProducts2) {
+                productList2.innerHTML = ''; 
+                filteredProducts2.forEach(product => {
+                    const div = document.createElement('div');
+                    div.style.cursor = 'pointer';
+                    div.innerHTML = `
+                    <div class="custom-product-card" data-type="${product.type}">
+                        <a  style="text-decoration: none;">
+                            <div class="custom-discount">${product.discount}%</div>
+                            <img src="${product.image}" alt="Product Image">
+                            <div class="custom-product-label">
+                                <span class="custom-installment">Trả góp 0%</span>
+                                <span class="custom-free-ship">Miễn phí ship</span>
+                            </div>
+                            <h3 class="custom-product-title">${product.name}</h3>
+                            <p class="custom-product-price">${product.price.toLocaleString()} đ <span class="custom-old-price">${product.oldPrice.toLocaleString()} đ</span></p>
+                            <div class="custom-rating">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                <span class="custom-rating-text">(${product.reviews} đánh giá)</span>
+                            </div>
+                            <div class="promotion">
+                                <div class="logo-promotion">KM</div>
+                                <div class="text-promotion">Học sinh, sinh viên giảm thêm 200.000 đ</div>
+                            </div>
+                        </a>
+                    </div>
+                    `;
+
+                    div.addEventListener('click', () => {
+                        localStorage.setItem('selectedProduct', JSON.stringify(product));
+                        window.location.href = 'product-detail.html';
+                    });
+
+                    productList2.appendChild(div);
+                });
+            }
+
+            renderProducts2(filteredProducts2);
+
+        </script>
+        <div class="list">
+            <button class="filter-btn phone"   data-type="Samsung">Samsung</button>
+            <div class="filter-btn"><a href="">Galaxy Z</a></div>
+            <div class="filter-btn"><a href="">Galaxy S</a></div>
+            <div class="filter-btn"><a href="">Galaxy A</a></div>
+            <div class="filter-btn"><a href="">Galaxy M</a></div>
+            <div class="filter-btn"><a href="">Samsung</a></div>
+
+        </div>
+        <div class="custom-product-container" id="product-list2">
+        </div>
+        <script type="module">
+            import products from './data.js';
+            console.log(products);
+            const productList3 = document.getElementById('product-list2');
+            // Lọc sản phẩm theo type "iPhone"
+            const filteredProducts3 = products.filter(product => product.type === "Samsung");
+
+            function renderProducts3(filteredProducts3) {
+                productList3.innerHTML = ''; 
+                filteredProducts3.forEach(product => {
+                    const div = document.createElement('div');
+                    div.style.cursor = 'pointer';
+                    div.innerHTML = `
+                    <div class="custom-product-card" data-type="${product.type}">
+                        <a  style="text-decoration: none;">
+                            <div class="custom-discount">${product.discount}%</div>
+                            <img src="${product.image}" alt="Product Image">
+                            <div class="custom-product-label">
+                                <span class="custom-installment">Trả góp 0%</span>
+                                <span class="custom-free-ship">Miễn phí ship</span>
+                            </div>
+                            <h3 class="custom-product-title">${product.name}</h3>
+                            <p class="custom-product-price">${product.price.toLocaleString()} đ <span class="custom-old-price">${product.oldPrice.toLocaleString()} đ</span></p>
+                            <div class="custom-rating">
+                                <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                                <span class="custom-rating-text">(${product.reviews} đánh giá)</span>
+                            </div>
+                            <div class="promotion">
+                                <div class="logo-promotion">KM</div>
+                                <div class="text-promotion">Học sinh, sinh viên giảm thêm 200.000 đ</div>
+                            </div>
+                        </a>
+                    </div>
+                    `;
+
+                    div.addEventListener('click', () => {
+                        localStorage.setItem('selectedProduct', JSON.stringify(product));
+                        window.location.href = 'product-detail.html';
+                    });
+
+                    productList3.appendChild(div);
+                });
+            }
+            renderProducts3(filteredProducts3);
+            
+        </script>
+        <div class="phone"><a href="" style="color: white;">Danh mục phụ kiện</a></div>
+        <div class="list-category-accessory"  id="accessory1">
+
+        </div>
+        <script type="module">
+            import accessories from './data_accessory.js';
+            console.log(accessories);
+            const List = document.getElementById('accessory1');
+            
+            function renderProducts(filteredProducts) {
+                List.innerHTML = ''; 
+                filteredProducts.forEach(accessories => {
+                    const div = document.createElement('div');
+                    div.style.cursor = 'pointer';
+                    div.innerHTML = `
+                        <div class="accessory_item">
+                            <a href="" aria-label="${accessories.text}" title="${accessories.text}">
+                                <img src="${accessories.img}" width="146" height="146" alt="${accessories.text}">
+                                <span>${accessories.text}</span>
+                            </a>
+                        </div>
+                    `;
+                    List.appendChild(div);
+                });
+            }
+            
+            renderProducts(accessories);
+        </script>
+
+        <div class="phone"><a href="" style="color: white;">Danh mục hàng cũ</a></div>
+        <div class="list-category-accessory flex">
+            <div class="accessory_item">
+                <a href="/phu-kien-apple" aria-label="Phụ kiện Apple" title="Phụ kiện Apple">
+                    <img src="https://clickbuy.com.vn/uploads/pro/iphone-15-pro-max-cu-0223-zgyk-300x300-197422.jpg" width="146" height="146" alt="Phụ kiện Apple">
+                    <span>iPhone 15 series cũ</span>
+                </a>
+            </div>
+
+            <div class="accessory_item">
+                <a href="/pin-sac-du-phong" aria-label="Pin dự phòng" title="Pin dự phòng">
+                    <img src="https://clickbuy.com.vn/uploads/images/2024_02/14prm2.jpg" width="146" height="146" alt="Pin dự phòng">
+                    <span>iPhone 14 series cũ</span>
+                </a>
+            </div>
+
+            <div class="accessory_item">
+                <a href="/tai-nghe" aria-label="Tai nghe" title="Tai nghe">
+                    <img src="https://clickbuy.com.vn/uploads/images/icon/iphone-13-cu.png" width="146" height="146" alt="Tai nghe">
+                    <span>iPhone 13 series cũ</span>
+                </a>
+            </div>
+
+            <div class="accessory_item">
+                <a href="/cap-sac" aria-label="Cáp, sạc" title="Cáp, sạc">
+                    <img src="https://clickbuy.com.vn/uploads/images/icon/iphone-12-cu.png" width="146" height="146" alt="Cáp, sạc">
+                    <span>iPhone 12 series cũ</span>
+                </a>
+            </div>
+
+            <div class="accessory_item">
+                <a href="/op-lung" aria-label="Ốp lưng, bao da" title="Ốp lưng, bao da">
+                    <img src="https://clickbuy.com.vn/uploads/images/2024_02/11prm.jpg" width="146" height="146" alt="Ốp lưng, bao da">
+                    <span>iPhone 11 series cũ</span>
+                </a>
+            </div>
+
+            <div class="accessory_item">
+                <a href="/loa" aria-label="Loa" title="Loa">
+                    <img src="https://clickbuy.com.vn/uploads/images/2024_02/xsm.jpg" width="146" height="146" alt="Loa">
+                    <span>iPhone Xs Max</span>
+                </a>
+            </div>
+
+            <div class="accessory_item">
+                <a href="/dan-man-hinh" aria-label="Dán màn hình" title="Dán màn hình">
+                    <img src="https://clickbuy.com.vn/uploads/images/icon/ipad-pro-cu.png" width="146" height="146" alt="Dán màn hình">
+                    <span>iPad cũ</span>
+                </a>
+            </div>
+
+            <div class="accessory_item">
+                <a href="/phu-kien-laptop" aria-label="Phụ kiện Laptop" title="Phụ kiện Laptop">
+                    <img src="https://clickbuy.com.vn/uploads/images/icon/sam-sung-cu.png" width="146" height="146" alt="Phụ kiện Laptop">
+                    <span>Samsung cũ</span>
+                </a>
+            </div>
+        </div> 
+        <h3 class="top">Website bán hàng công nghệ uy tín hàng đầu Việt Nam</h3>
+    </div>
+    <footer>
+       
+        <div class="footer-top">
+            <div class="footer-item">
+                <b style="font-size: 13px;">Chính sách bán hàng</b>
+                <ul>
+                    <li><a href="">Chính sách bảo hành</a></li>
+                    <li><a href="">Chính sách mua hàng online</a></li>
+                    <li><a href="">Chính sách bảo mật thông tin khách hàng</a></li>
+                </ul>
+            </div>
+            <div class="footer-item">
+                <div class="footer-top-title"><b>Tổng đài hỗ trợ</b><span style="color: rgba(0, 0, 0, 0.822);">(Từ 8:00 đến 21:00)</span></div>
+                <div class="footer-text">
+                    <div>Hotline bán hàng</div>
+                    <a href="tel:0342999999"><b>0342999999</b></a>
+                    <div>Hotline bảo hành kỹ thuật</div>
+                    <a href="tel:0342999999"><b>0342999999</b></a>
+                    <div>Hotline hỗ trợ phần mềm</div>
+                    <a href="tel:0342999999"><b>0342999999</b></a>
+                </div>
+            </div>
+            <div style="margin-left: 50px;">
+                <div style="font-weight: bold;font-size: 13px;">Địa chỉ:</div>
+                <ul id="location-1" class="tab-pane active">
+                    <li class="store-list__item" store-id="7">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">375 Cầu Giấy, Hà Nội</span>:
+                        <a href="tel:0911542468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0911.542.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="8">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">111 Trần Đăng Ninh, Cầu Giấy, Hà Nội</span>:
+                        <a href="tel:0976732468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0976.732.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="10">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">118 Thái hà, Đống Đa, Hà Nội</span>:
+                        <a href="tel:0964242468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0964.242.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="9">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">446 Xã Đàn, Đống Đa, Hà Nội</span>:
+                        <a href="tel:0961112468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0961.112.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="12">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">312 Nguyễn Trãi, P.Trung Văn, Q.Nam Từ Liêm, Hà Nội (gần Đại Học Hà Nội)</span>:
+                        <a href="tel:0946982468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0946.982.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="6">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">380 Trần Phú, Ba Đình, TP.Thanh Hóa</span>:
+                        <a href="tel:0969142468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0969.142.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="13">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">Ngã 3 Đông Yên, Yên Phong, Bắc Ninh (Khu công nghiệp Yên Phong)</span>:
+                        <a href="tel:0941442468" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0941.442.468</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="14">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">269 Nguyễn Hữu Tiến, TT Đồng Văn, Duy Tiên, Hà Nam</span>:
+                        <a href="tel:0357.209.209" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0357.209.209</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="15">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">TTBH Hà Nội 1: Tầng 2, số 111 Trần Đăng Ninh, Cầu Giấy, Hà Nội</span>:
+                        <a href="tel:024.6683.9292" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">024.6683.9292 </b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                    <li class="store-list__item" store-id="24">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+                            <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"></path>
+                        </svg>
+                        <span class="store-list__name">TTBH Hà Nội 2: Tầng 2, số 375 Cầu Giấy, Hà Nội</span>:
+                        <a href="tel:0974504900" title="Hotline" aria-label="Hotline">
+                            <b class="phone-number">0974.504.900</b>
+                        </a>- <strong>Bản đồ đường đi</strong>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="footer-itme"></div>
+        </div>
+        <a href="#" id="backToTop">
+            <div class="icon-up">
+                <svg height="15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                <path d="M416 352c-8.188 0-16.38-3.125-22.62-9.375L224 173.3l-169.4 169.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l192-192c12.5-12.5 32.75-12.5 45.25 0l192 192c12.5 12.5 12.5 32.75 0 45.25C432.4 348.9 424.2 352 416 352z"></path></svg>
+            </div>Lên đầu
+        </a>
+        <div class="social-icons">
+            <a href="tel:0123456789" class="icon call" title="Call">
+                <img src="https://clickbuy.com.vn/assets/images/icon-phone.png" alt="Call" />
+            </a>
+            <a href="https://m.me/yourprofile" target="_blank" class="icon messenger" title="Message">
+                <img src="https://clickbuy.com.vn/assets/images/icon-mess.png" alt="Messenger" />
+            </a>
+            <a href="https://zalo.me/yourprofile" target="_blank" class="icon zalo" title="Zalo">
+                <img src="https://clickbuy.com.vn/assets/images/icon-zalo.png" alt="Zalo" />
+            </a>
+        </div>
+    </footer>
+    <div style="text-align: center;background-color: #f0f0f0;line-height: 40px;font-size: 12px;">© 2013 ~ 2024 - Công ty TNHH Hoàng Đức Thịnh. GPKD số 0106081880 do Sở KH & ĐT Thành phố Hà Nội cấp ngày 10/01/2013</div>
+    <script src="index.js"></script>
+</body>
+
+</html>
