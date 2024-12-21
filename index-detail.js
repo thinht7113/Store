@@ -4,7 +4,7 @@ if (product) {
     document.getElementById('header-breadcrumb').innerHTML = 
     `
     <div class="breadcrumb">
-        <a href="./main.html"><i class="fa-solid fa-house"></i>Trang chủ</a>
+        <a href="./index.html"><i class="fa-solid fa-house"></i>Trang chủ</a>
         <span>&raquo;</span>
         <a href="list.html?type=all">Điện thoại</a>
         <span>&raquo;</span>
