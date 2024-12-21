@@ -137,7 +137,7 @@ const products = [
         price2_color:11990000,
         oldPrice: 13990000,
         discount: 14,
-        image: "https://clickbuy.com.vn/uploads/pro/2_52851.jpg",
+        image: "https://clickbuy.com.vn/uploads/pro/xiaomi-14t-chinh-hang-0370-xlhy-300x300-217909.png",
         image1:"https://clickbuy.com.vn/uploads/pro/2_52851.jpg",
         image2:"https://clickbuy.com.vn/uploads/pro/2_52850.jpg",
         image3:"https://clickbuy.com.vn/uploads/pro/2_52851.jpg",
