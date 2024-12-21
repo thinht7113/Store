@@ -137,7 +137,7 @@ const products = [
         price2_color:11990000,
         oldPrice: 13990000,
         discount: 14,
-        image: "https://clickbuy.com.vn/uploads/pro/xiaomi-14t-chinh-hang-9419-oqcq-300x300-217909.png",
+        image: "https://clickbuy.com.vn/uploads/pro/2_52851.jpg",
         image1:"https://clickbuy.com.vn/uploads/pro/2_52851.jpg",
         image2:"https://clickbuy.com.vn/uploads/pro/2_52850.jpg",
         image3:"https://clickbuy.com.vn/uploads/pro/2_52851.jpg",
